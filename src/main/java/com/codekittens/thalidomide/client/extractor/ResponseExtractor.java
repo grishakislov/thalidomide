@@ -45,7 +45,7 @@ public class ResponseExtractor {
     }
 
     private List<String> extract(HttpsURLConnection connection, boolean first) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 

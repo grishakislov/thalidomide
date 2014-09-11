@@ -3,6 +3,7 @@ package com.codekittens.thalidomide.client;
 import com.codekittens.thalidomide.client.extractor.ExtractorFactory;
 import com.codekittens.thalidomide.model.KarmaState;
 import com.codekittens.thalidomide.model.ServerResponse;
+import com.codekittens.thalidomide.model.VoteState;
 import com.codekittens.thalidomide.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,9 +80,29 @@ public class ClientImpl implements Client {
     }
 
     @Override
+    public VoteState listCommentVotes(String commentId) throws ClientException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<VoteState> listCommentVotes(List<String> commentId) throws ClientException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public VoteState listPostVotes(String postId) throws ClientException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<VoteState> listPostVotes(List<String> postId) throws ClientException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public List<String> listCommentsIds() throws ClientException {
         LOG.debug("Listing comments...");
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         HttpsURLConnection connection;
         int pageNo = 0;
         int totalPages = numCommentsPages();
@@ -139,7 +160,7 @@ public class ClientImpl implements Client {
             out.close();
             String resp = readInputStream(connection);
 
-            Parser<KarmaState> parser = new Parser<KarmaState>();
+            Parser<KarmaState> parser = new Parser<>();
 
             return parser.parse(KarmaState.class, resp);
         } catch (IOException e) {

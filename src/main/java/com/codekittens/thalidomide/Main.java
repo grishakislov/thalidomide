@@ -21,12 +21,17 @@ public class Main {
 
         Client client = new ClientImpl();
         client.init();
-//        KarmaState karmaState = client.listKarma(50, 0);
-//        new KarmaPrinter<KarmaState>().print(karmaState);
+        KarmaState karmaState = client.listKarma(50, 0);
+        new KarmaPrinter<>().print(karmaState);
 
-        List<String> commentsIds = client.listCommentsIds();
-        Set<String> commentsSet = new HashSet<String>();
-        commentsSet.addAll(commentsIds);
+//        List<String> commentsIds = client.listCommentsIds();
+//        Set<String> commentsSet = new HashSet<>();
+//        commentsSet.addAll(commentsIds);
+//
+//        commentsIds.forEach((String id) -> System.out.println());
+//
+//        commentsIds.forEach(System.out::println);
+
         Thread.sleep(1000);
         System.exit(0);
     }

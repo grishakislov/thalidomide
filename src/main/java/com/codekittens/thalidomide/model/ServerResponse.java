@@ -8,4 +8,7 @@ public class ServerResponse {
     @JsonProperty("status")
     String status;
 
+    public String getStatus() {
+        return status;
+    }
 }

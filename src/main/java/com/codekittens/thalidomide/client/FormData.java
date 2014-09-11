@@ -1,5 +1,6 @@
 package com.codekittens.thalidomide.client;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,23 +33,20 @@ public class FormData {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        Set<String> keys = properties.keySet();
 
-        Iterator<String> it = keys.iterator();
-
-        try {
-            while (it.hasNext()) {
-                String name = it.next();
+        properties.keySet().forEach((String name) -> {
+            if (result.toString().length() > 0) {
+                result.append("&");
+            }
+            try {
                 result.append(URLEncoder.encode(name, "UTF-8"));
                 result.append("=");
                 result.append(URLEncoder.encode(properties.get(name), "UTF-8"));
-                if (it.hasNext()) {
-                    result.append("&");
-                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
+
         return result.toString();
     }
 }
