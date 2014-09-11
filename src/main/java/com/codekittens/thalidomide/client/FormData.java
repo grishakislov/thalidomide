@@ -30,6 +30,10 @@ public class FormData {
         addProperty(name, Integer.toString(value));
     }
 
+    public void clear() {
+        properties.clear();
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

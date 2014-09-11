@@ -1,9 +1,10 @@
 package com.codekittens.thalidomide.client;
 
 import com.codekittens.thalidomide.client.extractor.ExtractorFactory;
-import com.codekittens.thalidomide.model.KarmaState;
+import com.codekittens.thalidomide.model.KarmaResponse;
 import com.codekittens.thalidomide.model.ServerResponse;
-import com.codekittens.thalidomide.model.VoteState;
+import com.codekittens.thalidomide.model.VoteResponse;
+import com.codekittens.thalidomide.model.WrappedVoteResponse;
 import com.codekittens.thalidomide.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,22 +79,62 @@ public class ClientImpl implements Client {
     }
 
     @Override
-    public VoteState listCommentVotes(String commentId) throws ClientException {
+    public VoteResponse listCommentVotes(String commentId) throws ClientException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<VoteState> listCommentVotes(List<String> commentId) throws ClientException {
+    public List<WrappedVoteResponse> listCommentVotes(List<String> commentIds) throws ClientException {
+        LOG.debug("Listing votes for {} comments", commentIds.size());
+        Parser<VoteResponse> parser = new Parser();
+        List<WrappedVoteResponse> votes = new ArrayList<>();
+
+        commentIds.forEach((String commentId) -> {
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            VoteResponse currentVote;
+            WrappedVoteResponse wrappedVote;
+            HttpsURLConnection connection = getConnection(VOTES_LIST_URL);
+
+            try {
+                OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+                FormData formData = new FormData();
+
+                formData.addProperty("comment", commentId);
+                formData.addProperty("csrf_token", settings.getCsrfToken());
+                formData.addProperty("limit", 100);
+                formData.addProperty("offset", 0);
+
+                out.write(formData.toString());
+
+                out.close();
+                String resp = readInputStream(connection);
+
+                currentVote = parser.parse(VoteResponse.class, resp);
+                wrappedVote = new WrappedVoteResponse(commentId, currentVote);
+                votes.add(wrappedVote);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        return votes;
+    }
+
+    @Override
+    public VoteResponse listPostVotes(String postId) throws ClientException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public VoteState listPostVotes(String postId) throws ClientException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<VoteState> listPostVotes(List<String> postId) throws ClientException {
+    public List<VoteResponse> listPostVotes(List<String> postId) throws ClientException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -143,7 +182,7 @@ public class ClientImpl implements Client {
     }
 
     @Override
-    public KarmaState listKarma(int limit, int offset) throws ClientException {
+    public KarmaResponse listKarma(int limit, int offset) throws ClientException {
         LOG.debug("Listing karma for user {}", settings.getUid());
         try {
             HttpsURLConnection connection = getConnection(KARMA_URL);
@@ -160,9 +199,9 @@ public class ClientImpl implements Client {
             out.close();
             String resp = readInputStream(connection);
 
-            Parser<KarmaState> parser = new Parser<>();
+            Parser<KarmaResponse> parser = new Parser<>();
 
-            return parser.parse(KarmaState.class, resp);
+            return parser.parse(KarmaResponse.class, resp);
         } catch (IOException e) {
             e.printStackTrace();
         }

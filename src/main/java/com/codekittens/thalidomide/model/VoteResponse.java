@@ -4,15 +4,19 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
-public class KarmaState extends ServerResponse {
+public class VoteResponse extends ServerResponse {
+
+    @JsonProperty("rating")
+    private int rating;
+
     @JsonProperty("cons")
     private List<Vote> cons;
 
-    @JsonProperty("total_count")
-    private int totalCount;
-
     @JsonProperty("pros")
     private List<Vote> pros;
+
+    @JsonProperty("total_count")
+    private int totalCount;
 
     @JsonProperty("cons_count")
     private int consCount;
@@ -23,19 +27,20 @@ public class KarmaState extends ServerResponse {
     @JsonProperty("offset")
     private int offset;
 
-    @JsonProperty("karma")
-    private int karma;
+    public int getRating() {
+        return rating;
+    }
 
     public List<Vote> getCons() {
         return cons;
     }
 
-    public int getTotalCount() {
-        return totalCount;
-    }
-
     public List<Vote> getPros() {
         return pros;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
     }
 
     public int getConsCount() {
@@ -48,9 +53,5 @@ public class KarmaState extends ServerResponse {
 
     public int getOffset() {
         return offset;
-    }
-
-    public int getKarma() {
-        return karma;
     }
 }

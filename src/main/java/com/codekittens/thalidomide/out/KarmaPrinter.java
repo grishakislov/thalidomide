@@ -1,9 +1,9 @@
 package com.codekittens.thalidomide.out;
 
-import com.codekittens.thalidomide.model.KarmaState;
+import com.codekittens.thalidomide.model.KarmaResponse;
 import com.codekittens.thalidomide.model.Vote;
 
-public class KarmaPrinter<T extends KarmaState> extends AbstractPrinter<T> {
+public class KarmaPrinter<T extends KarmaResponse> extends Printer<T> {
 
     private static final int TAB_SIZE = 30;
 
