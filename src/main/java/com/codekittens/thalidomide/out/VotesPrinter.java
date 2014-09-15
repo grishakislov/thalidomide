@@ -1,8 +1,7 @@
 package com.codekittens.thalidomide.out;
 
-import com.codekittens.thalidomide.model.User;
-import com.codekittens.thalidomide.model.Vote;
-import com.codekittens.thalidomide.model.VoteResponse;
+import com.codekittens.thalidomide.model.trasnport.User;
+import com.codekittens.thalidomide.model.trasnport.Vote;
 import com.codekittens.thalidomide.model.WrappedVoteResponse;
 
 import java.io.PrintWriter;
@@ -26,7 +25,7 @@ public class VotesPrinter<T extends WrappedVoteResponse> extends Printer<T> {
 
     private Map<User, Result> allVotesByUser;
 
-    private PrintWriter writer;
+    private FileHelper fileHelper;
 
     public VotesPrinter() {
         allVotesByUser = new HashMap<>();
@@ -36,7 +35,7 @@ public class VotesPrinter<T extends WrappedVoteResponse> extends Printer<T> {
     @Override
     public void print(T input) {
         try {
-            writer.println("Votes for comment " + input.getCommentId());
+            fileHelper.println("Votes for comment " + input.getCommentId());
             if (input.getVoteResponse().getCons() != null) {
                 input.getVoteResponse().getCons().forEach((Vote vote) -> addVote(vote));
             }
@@ -73,7 +72,7 @@ public class VotesPrinter<T extends WrappedVoteResponse> extends Printer<T> {
     @Override
     public void print(List<T> input) {
         try {
-            writer = new PrintWriter("log.txt", "UTF-8");
+            fileHelper = new FileHelper("log.txt");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,23 +89,23 @@ public class VotesPrinter<T extends WrappedVoteResponse> extends Printer<T> {
         });
 
         printResults(results);
-        writer.close();
+        fileHelper.close();
     }
 
     private void printResults(List<Result> results) {
-        writer.println();
-        writer.println();
-        writer.println("Results:");
-        writer.println();
-        writer.println("Positive votes:");
+        fileHelper.println();
+        fileHelper.println();
+        fileHelper.println("Results:");
+        fileHelper.println();
+        fileHelper.println("Positive votes:");
         results.forEach((Result result) -> {
-            writer.println("  User: " + result.user.getLogin() + ", id: " + result.user.getId());
-            writer.println("  Positive votes:        " + result.numPositiveVotes);
-            writer.println("  Total positive rating: " + result.totalPositiveRating);
-            writer.println("  Negative votes:        " + result.numNegativeVotes);
-            writer.println("  Total negative rating: " + result.totalPositiveRating);
-            writer.println("----------------");
-            writer.println();
+            fileHelper.println("  User: " + result.user.getLogin() + ", id: " + result.user.getId());
+            fileHelper.println("  Positive votes:        " + result.numPositiveVotes);
+            fileHelper.println("  Total positive rating: " + result.totalPositiveRating);
+            fileHelper.println("  Negative votes:        " + result.numNegativeVotes);
+            fileHelper.println("  Total negative rating: " + result.totalPositiveRating);
+            fileHelper.println("----------------");
+            fileHelper.println();
         });
     }
 }

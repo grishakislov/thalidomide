@@ -1,8 +1,8 @@
 package com.codekittens.thalidomide.client;
 
-import com.codekittens.thalidomide.model.KarmaResponse;
-import com.codekittens.thalidomide.model.ServerResponse;
-import com.codekittens.thalidomide.model.VoteResponse;
+import com.codekittens.thalidomide.model.trasnport.KarmaResponse;
+import com.codekittens.thalidomide.model.trasnport.ServerResponse;
+import com.codekittens.thalidomide.model.trasnport.VoteResponse;
 import com.codekittens.thalidomide.model.WrappedVoteResponse;
 
 import java.util.List;

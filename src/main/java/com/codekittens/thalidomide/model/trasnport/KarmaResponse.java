@@ -1,22 +1,18 @@
-package com.codekittens.thalidomide.model;
+package com.codekittens.thalidomide.model.trasnport;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
-public class VoteResponse extends ServerResponse {
-
-    @JsonProperty("rating")
-    private int rating;
-
+public class KarmaResponse extends ServerResponse {
     @JsonProperty("cons")
     private List<Vote> cons;
 
-    @JsonProperty("pros")
-    private List<Vote> pros;
-
     @JsonProperty("total_count")
     private int totalCount;
+
+    @JsonProperty("pros")
+    private List<Vote> pros;
 
     @JsonProperty("cons_count")
     private int consCount;
@@ -27,20 +23,19 @@ public class VoteResponse extends ServerResponse {
     @JsonProperty("offset")
     private int offset;
 
-    public int getRating() {
-        return rating;
-    }
+    @JsonProperty("karma")
+    private int karma;
 
     public List<Vote> getCons() {
         return cons;
     }
 
-    public List<Vote> getPros() {
-        return pros;
-    }
-
     public int getTotalCount() {
         return totalCount;
+    }
+
+    public List<Vote> getPros() {
+        return pros;
     }
 
     public int getConsCount() {
@@ -53,5 +48,9 @@ public class VoteResponse extends ServerResponse {
 
     public int getOffset() {
         return offset;
+    }
+
+    public int getKarma() {
+        return karma;
     }
 }

@@ -1,7 +1,7 @@
 package com.codekittens.thalidomide.out;
 
-import com.codekittens.thalidomide.model.KarmaResponse;
-import com.codekittens.thalidomide.model.Vote;
+import com.codekittens.thalidomide.model.trasnport.KarmaResponse;
+import com.codekittens.thalidomide.model.trasnport.Vote;
 
 public class KarmaPrinter<T extends KarmaResponse> extends Printer<T> {
 

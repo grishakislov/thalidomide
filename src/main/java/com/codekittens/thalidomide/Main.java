@@ -2,14 +2,12 @@ package com.codekittens.thalidomide;
 
 import com.codekittens.thalidomide.client.Client;
 import com.codekittens.thalidomide.client.ClientImpl;
-import com.codekittens.thalidomide.model.VoteResponse;
 import com.codekittens.thalidomide.model.WrappedVoteResponse;
-import com.codekittens.thalidomide.out.VotesPrinter;
+import com.codekittens.thalidomide.out.VotesAnalysePrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 public class Main {
@@ -19,9 +17,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
         LOG.debug("Thalidomide injected!");
 
-        Client client = new ClientImpl();
-        client.init();
-
+//        Client client = new ClientImpl();
+//        client.init();
+//
         /**
          *Karma list test
          */
@@ -34,26 +32,45 @@ public class Main {
 //        List<String> commentsIds = client.listCommentsIds();
 //        Set<String> commentsSet = new HashSet<>();
 //        commentsSet.addAll(commentsIds);
-//
+
 //        commentsIds.forEach((String id) -> System.out.println());
-//
+
 //        commentsIds.forEach(System.out::println);
+
+
+
+//        FileHelper fileHelper = new FileHelper("comments.lst");
+//        commentsIds.forEach((String id) -> fileHelper.println(id));
+//        fileHelper.close();
 
         /**
          *Comments votes list test
+         * Write it to file
          */
-        List<WrappedVoteResponse> votes = client.listCommentVotes(Arrays.asList(
-                "39458333",
-                "39457648",
-                "39450607",
-                "39380941",
-                "39348520",
-                "39323016",
-                "39190537"
-        ));
-        VotesPrinter<WrappedVoteResponse> votesPrinter = new VotesPrinter<>();
+//        List<String> ids = Arrays.asList(AllComments.ALL.split(","));
+//
+//        List<WrappedVoteResponse> votes = client.listCommentVotes(ids);
+//
+//        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+//        String json = ow.writeValueAsString(votes);
+//
+//        FileHelper fileHelper = new FileHelper("list.json");
+//        fileHelper.println(json);
+//        fileHelper.close();
 
-        votesPrinter.print(votes);
+        /**
+         * Read and analyse
+         */
+
+
+
+        Helper<WrappedVoteResponse> helper = new Helper<>();
+
+        List<WrappedVoteResponse> decoded = helper.read("list.json");
+
+        VotesAnalysePrinter printer = new VotesAnalysePrinter();
+
+        printer.print(decoded);
 
         Thread.sleep(1000);
         System.exit(0);

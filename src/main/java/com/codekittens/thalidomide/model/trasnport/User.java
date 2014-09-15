@@ -1,4 +1,4 @@
-package com.codekittens.thalidomide.model;
+package com.codekittens.thalidomide.model.trasnport;
 
 
 import org.codehaus.jackson.annotate.JsonProperty;

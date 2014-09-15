@@ -1,9 +1,9 @@
 package com.codekittens.thalidomide.client;
 
 import com.codekittens.thalidomide.client.extractor.ExtractorFactory;
-import com.codekittens.thalidomide.model.KarmaResponse;
-import com.codekittens.thalidomide.model.ServerResponse;
-import com.codekittens.thalidomide.model.VoteResponse;
+import com.codekittens.thalidomide.model.trasnport.KarmaResponse;
+import com.codekittens.thalidomide.model.trasnport.ServerResponse;
+import com.codekittens.thalidomide.model.trasnport.VoteResponse;
 import com.codekittens.thalidomide.model.WrappedVoteResponse;
 import com.codekittens.thalidomide.parser.Parser;
 import org.slf4j.Logger;
@@ -107,7 +107,7 @@ public class ClientImpl implements Client {
 
                 formData.addProperty("comment", commentId);
                 formData.addProperty("csrf_token", settings.getCsrfToken());
-                formData.addProperty("limit", 100);
+                formData.addProperty("limit", 2000);
                 formData.addProperty("offset", 0);
 
                 out.write(formData.toString());
@@ -118,7 +118,7 @@ public class ClientImpl implements Client {
                 currentVote = parser.parse(VoteResponse.class, resp);
                 wrappedVote = new WrappedVoteResponse(commentId, currentVote);
                 votes.add(wrappedVote);
-
+                LOG.debug("Comment {} ({} of {})", commentId, votes.size(), commentIds.size());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -147,7 +147,7 @@ public class ClientImpl implements Client {
         int totalPages = numCommentsPages();
         LOG.debug("Listing {} pages total", totalPages);
 
-        while (pageNo < 3) {
+        while (pageNo <= totalPages) {
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
