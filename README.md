@@ -1,4 +1,4 @@
 thalidomide
 ===========
 
-Java client for leprosorium.ru
+Java client for Thalidomide project
